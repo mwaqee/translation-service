@@ -1,0 +1,26 @@
+server:
+  port: 8080
+  compression:
+    enabled: true
+
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/translations}
+    username: ${SPRING_DATASOURCE_USERNAME:app}
+    password: ${SPRING_DATASOURCE_PASSWORD:app}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc.batch_size: 1000
+        order_inserts: true
+        order_updates: true
+        generate_statistics: false
+
+app:
+  jwt:
+    secret: ${APP_JWT_SECRET:change-me-demo-secret-change-me}
+    issuer: translation-service
+    expiryMinutes: 120
+  seed: ${APP_SEED:false}
