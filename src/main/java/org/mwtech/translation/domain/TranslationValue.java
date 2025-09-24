@@ -2,6 +2,7 @@ package org.mwtech.translation.domain;
 
 import jakarta.persistence.*;
 import java.time.Instant;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="translation_values", uniqueConstraints=@UniqueConstraint(columnNames={"key_id","locale_id","platform"}))
@@ -9,10 +10,12 @@ public class TranslationValue {
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne(fetch=FetchType.LAZY) @JoinColumn(name="key_id", nullable=false)
+  @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="key_id", nullable=false)
+  @JsonIgnore
   private TranslationKey key;
 
-  @ManyToOne(fetch=FetchType.LAZY) @JoinColumn(name="locale_id", nullable=false)
+  @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="locale_id", nullable=false)
+  @JsonIgnore
   private LocaleEntity locale;
 
   @Column(nullable=false) private String platform;

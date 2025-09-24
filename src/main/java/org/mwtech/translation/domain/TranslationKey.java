@@ -17,6 +17,7 @@ public class TranslationKey {
   @PreUpdate  void preUpdate(){ updatedAt = Instant.now(); }
 
   public Long getId(){return id;}
+  public void setId(Long id) {this.id = id;}
   public String getNamespace(){return namespace;}
   public void setNamespace(String namespace){this.namespace=namespace;}
   public String getTkey(){return tkey;}

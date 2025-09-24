@@ -37,11 +37,95 @@
     <dependency><groupId>org.springdoc</groupId><artifactId>springdoc-openapi-starter-webmvc-ui</artifactId><version>2.6.0</version></dependency>
     <dependency><groupId>org.postgresql</groupId><artifactId>postgresql</artifactId><scope>runtime</scope></dependency>
     <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-test</artifactId><scope>test</scope></dependency>
+    <dependency>
+	    <groupId>com.h2database</groupId>
+	    <artifactId>h2</artifactId>
+	    <scope>test</scope>
+	  </dependency>
+	
+	  <!-- Mockito (optional but handy) -->
+	  <dependency>
+	    <groupId>org.mockito</groupId>
+	    <artifactId>mockito-core</artifactId>
+	    <scope>test</scope>
+	  </dependency>
+	  <dependency>
+	    <groupId>org.mockito</groupId>
+	    <artifactId>mockito-junit-jupiter</artifactId>
+	    <scope>test</scope>
+	  </dependency>
+	  <dependency>
+	    <groupId>org.assertj</groupId>
+	    <artifactId>assertj-core</artifactId>
+	    <scope>test</scope>
+	  </dependency>
   </dependencies>
 
   <build>
     <plugins>
       <plugin><groupId>org.springframework.boot</groupId><artifactId>spring-boot-maven-plugin</artifactId></plugin>
+      <plugin>
+		  <groupId>org.jacoco</groupId>
+		  <artifactId>jacoco-maven-plugin</artifactId>
+		  <version>0.8.11</version>
+		  <executions>
+		    <execution>
+		      <goals>
+		        <goal>prepare-agent</goal>
+		      </goals>
+		    </execution>
+		    <execution>
+		      <id>report</id>
+		      <phase>test</phase>
+		      <goals>
+		        <goal>report</goal>
+		      </goals>
+		    </execution>
+		    <execution>
+		      <id>check</id>
+		      <phase>verify</phase>
+		      <goals>
+		        <goal>check</goal>
+		      </goals>
+		      <configuration>
+		        <rules>
+		          <rule>
+		            <element>BUNDLE</element>
+		            <limits>
+		              <limit>
+		                <counter>INSTRUCTION</counter>
+		                <value>COVEREDRATIO</value>
+		                <minimum>0.95</minimum>
+		              </limit>
+		            </limits>
+		          </rule>
+		        </rules>
+		        <excludes>
+		          <!-- app/bootstrap -->
+		          <exclude>**/TranslationServiceApplication.class</exclude>
+		          <exclude>**/StartupSeedRunner.class</exclude>
+		          <!-- DTOs & Entities -->
+		          <exclude>**/api/dto/**</exclude>
+		          <exclude>**/domain/**</exclude>
+		          <!-- Repositories are Spring Data interfaces (no real logic) -->
+		          <exclude>**/repo/**</exclude>
+		          <!-- configs / filters (glue) -->
+		          <exclude>**/*Config.class</exclude>
+		          <exclude>**/security/**</exclude>
+		        </excludes>
+		      </configuration>
+		    </execution>
+		  </executions>
+		</plugin>
+	    <plugin>
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-compiler-plugin</artifactId>
+		  <version>3.11.0</version>
+		  <configuration>
+		    <release>${java.version}</release>
+		    <parameters>true</parameters>
+		  </configuration>
+		</plugin>
     </plugins>
   </build>
 </project>

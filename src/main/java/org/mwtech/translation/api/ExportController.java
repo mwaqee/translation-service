@@ -14,10 +14,10 @@ public class ExportController {
 
   @GetMapping("/export")
   public ResponseEntity<Map<String,String>> export(
-      @RequestParam String locale,
-      @RequestParam String platform,
-      @RequestParam(required=false) String namespace,
-      @RequestHeader(value="If-None-Match", required=false) String inm
+      @RequestParam(name = "locale") String locale,
+      @RequestParam(name = "platform") String platform,
+      @RequestParam(name = "namespace", required = false) String namespace,
+      @RequestHeader(name = "If-None-Match", required = false) String inm
   ){
     return exportService.export(locale, platform, namespace, inm, null);
   }

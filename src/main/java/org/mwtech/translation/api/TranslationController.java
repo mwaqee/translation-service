@@ -1,6 +1,7 @@
 package org.mwtech.translation.api;
 
 import org.mwtech.translation.api.dto.CreateTranslationRequest;
+import org.mwtech.translation.api.dto.SearchItem;
 import org.mwtech.translation.domain.TranslationValue;
 import org.mwtech.translation.service.TranslationService;
 import org.springframework.data.domain.*;
@@ -20,14 +21,23 @@ public class TranslationController {
   }
 
   @GetMapping
-  public Page<TranslationValue> search(
-      @RequestParam(required=false) String namespace,
-      @RequestParam(required=false) String locale,
-      @RequestParam(required=false) String platform,
-      @RequestParam(required=false) String q,
-      @RequestParam(defaultValue="0") int page,
-      @RequestParam(defaultValue="50") int size){
-    return svc.search(namespace, locale, platform, q, PageRequest.of(page, Math.min(size, 200)));
+  public Page<SearchItem> search(
+      @RequestParam(name = "namespace", required = false) String namespace,
+      @RequestParam(name = "locale", required = false) String locale,
+      @RequestParam(name = "platform", required = false) String platform,
+      @RequestParam(name = "q", required = false) String q,
+      @RequestParam(name = "page", defaultValue = "0") int page,
+      @RequestParam(name = "size", defaultValue = "50") int size
+  ){
+    var p = svc.search(namespace, locale, platform, q, PageRequest.of(page, Math.min(size, 200)));
+    return p.map(tv -> new SearchItem(
+        tv.getId(),
+        tv.getKey().getNamespace(),
+        tv.getKey().getTkey(),
+        tv.getLocale().getCode(),
+        tv.getPlatform(),
+        tv.getText()
+    ));
   }
   
   @PutMapping("/{id}")
