@@ -6,8 +6,8 @@ server:
 spring:
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/translations}
-    username: ${SPRING_DATASOURCE_USERNAME:app}
-    password: ${SPRING_DATASOURCE_PASSWORD:app}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
   jpa:
     hibernate:
       ddl-auto: update
@@ -20,7 +20,7 @@ spring:
 
 app:
   jwt:
-    secret: ${APP_JWT_SECRET:change-me-demo-secret-change-me}
-    issuer: translation-service
-    expiryMinutes: 120
+    secret: "this-is-a-very-long-hmac-sha256-secret-key-please-change-me-64-CHARS-min"
+    issuer: "translation-service"
+    expiryMinutes: 60
   seed: ${APP_SEED:false}

@@ -18,8 +18,8 @@ public interface TranslationValueRepository extends JpaRepository<TranslationVal
      and (:locale is null or lc.code = :locale)
      and (:platform is null or tv.platform = :platform)
      and ( :q is null
-           or lower(k.tkey) like lower(concat('%', :q, '%'))
-           or lower(tv.text) like lower(concat('%', :q, '%')) )
+           or k.tkey ILIKE concat('%', cast(:q as text), '%')
+           or tv.text ILIKE concat('%', cast(:q as text), '%') )
   """)
   Page<TranslationValue> search(String namespace, String locale, String platform, String q, Pageable pageable);
 

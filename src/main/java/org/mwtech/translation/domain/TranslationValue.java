@@ -19,7 +19,8 @@ public class TranslationValue {
   private LocaleEntity locale;
 
   @Column(nullable=false) private String platform;
-  @Column(nullable=false, columnDefinition="text") private String text;
+  @Column(name = "text", columnDefinition = "text", nullable = false)
+  private String text;
   @Column(nullable=false) private Instant createdAt;
   @Column(nullable=false) private Instant updatedAt;
 
